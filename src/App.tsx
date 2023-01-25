@@ -1,15 +1,17 @@
-import { useQuery } from '@/hooks'
+import { Routes, Route } from 'react-router-dom'
 import Navbar from '@/components/Navbar'
+import Beers from '@/views/Beers'
+import Beer from '@/views/Beer'
 
 function App() {
-	const data = useQuery('/beers')
-	console.log(data)
-
 	return (
 		<div className="px-4">
 			<div className="mx-auto max-w-7xl">
 				<Navbar />
-				<h2>hek</h2>
+				<Routes>
+					<Route path="/" element={<Beers />} />
+					<Route path="/beers/:id" element={<Beer />} />
+				</Routes>
 			</div>
 		</div>
 	)

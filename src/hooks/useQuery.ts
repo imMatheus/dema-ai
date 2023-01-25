@@ -20,6 +20,14 @@ export function useQuery<T>(url: string) {
 			try {
 				const res = await fetch(`${BASE_URL}${url}`)
 				const json = await res.json()
+
+				// await new Promise((resolve) => setTimeout(resolve, 4000))
+
+				// handles edge case of 404
+				if (!res.ok) {
+					throw new Error('Could not fetch data')
+				}
+
 				setData({ data: json, error: null, loading: false })
 			} catch (error) {
 				setData({ data: null, error, loading: false })
