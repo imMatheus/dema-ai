@@ -2,6 +2,8 @@ import React from 'react'
 import type { Beer } from '@/types'
 import { Link } from 'react-router-dom'
 import classNames from 'classnames'
+import SkeletonImage from '@/components/skeletons/SkeletonImage'
+import SkeletonText from '@/components/skeletons/SkeletonText'
 
 interface BeerCardProps {
 	beer?: Beer
@@ -11,14 +13,14 @@ interface BeerCardProps {
 const BeerCard: React.FC<BeerCardProps> = ({ beer, loading }) => {
 	return (
 		<Link to={`/beers/${beer?.id}`} className={classNames('group relative', loading && 'animate-pulse')}>
-			<div className="aspect-square w-full overflow-hidden rounded-md bg-gray-100 py-6 transition-opacity group-hover:opacity-75 lg:h-80">
+			<div className="aspect-square w-full overflow-hidden rounded-md bg-gray-200 transition-opacity group-hover:opacity-75 lg:h-80">
 				{loading ? (
-					<div className="h-full w-full" />
+					<SkeletonImage />
 				) : (
 					<img
 						src={beer?.image_url}
 						alt="Front of men&#039;s Basic Tee in black."
-						className="h-full w-full object-contain object-center lg:h-full lg:w-full"
+						className="h-full w-full object-contain object-center py-6 lg:h-full lg:w-full"
 					/>
 				)}
 			</div>
@@ -26,8 +28,8 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer, loading }) => {
 				<div>
 					{loading ? (
 						<>
-							<div className="h-3.5 w-28 rounded-md bg-gray-100"></div>
-							<div className="mt-1 h-3.5 w-16 rounded-md bg-gray-100"></div>
+							<SkeletonText className="h-3.5 w-28" />
+							<SkeletonText className="mt-1 h-3.5 w-16" />
 						</>
 					) : (
 						<>
@@ -37,7 +39,7 @@ const BeerCard: React.FC<BeerCardProps> = ({ beer, loading }) => {
 					)}
 				</div>
 				{loading ? (
-					<div className="h-3.5 w-10 rounded-md bg-gray-100"></div>
+					<SkeletonText className="h-3.5 w-10" />
 				) : (
 					<p className="font-medium text-gray-900">{beer?.abv}</p>
 				)}

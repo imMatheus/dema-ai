@@ -16,11 +16,13 @@ const Beers: React.FC = ({}) => {
 
 	return (
 		<div>
-			<h2>All beers</h2>
+			<h2 className="mb-4 text-xl font-semibold">All beers</h2>
 
-			<div className="mt-6 grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
+			<div className="grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
 				{loading
-					? [1, 2, 3, 4, 5, 6, 7, 8, 9].map(() => <BeerCard loading={true} />)
+					? Array(20) // little trick to easy generate 20 items in array
+							.fill(0)
+							.map(() => <BeerCard loading={true} />)
 					: beers?.map((beer) => <BeerCard beer={beer} />)}
 				{/* The "?" above is only */}
 			</div>
