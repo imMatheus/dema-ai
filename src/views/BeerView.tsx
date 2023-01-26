@@ -7,7 +7,7 @@ import SkeletonImage from '@/components/skeletons/SkeletonImage'
 import SkeletonText from '@/components/skeletons/SkeletonText'
 import { BeerPageLayout } from '@/components/layouts/BeerPageLayout'
 
-const Beer: React.FC = ({}) => {
+export const BeerView: React.FC = ({}) => {
 	const { id } = useParams()
 	const { data: beers, error, loading } = useQuery<Beer[]>('/beers/' + id)
 
@@ -98,5 +98,3 @@ const Beer: React.FC = ({}) => {
 		</BeerPageLayout>
 	)
 }
-
-export default Beer

@@ -4,7 +4,7 @@ import { Search } from 'react-feather'
 import { useDebounce, useQuery } from '@/hooks'
 import type { Beer } from '@/types'
 
-const Navbar: React.FC = ({}) => {
+export const Navbar: React.FC = ({}) => {
 	const [searchQuery, setSearchQuery] = useState('')
 	const debouncedSearchQuery = useDebounce(searchQuery, 500)
 	const memoizedQueryParams = useMemo(
@@ -16,14 +16,16 @@ const Navbar: React.FC = ({}) => {
 
 	return (
 		<nav className="flex flex-wrap justify-between gap-3 py-3">
-			<a href="/" className="text-2xl font-black tracking-wider">
+			<Link to="/" className="text-2xl font-black tracking-wider">
 				The Beer Bible
-			</a>
+			</Link>
 
 			<div className="group relative flex items-center gap-2 rounded-md border border-black py-1 px-5 text-sm focus-within:border-primary">
 				<Search className="h-5 w-5 group-focus-within:text-primary" />
 				<input
 					type="text"
+					name="navbar-search-input"
+					id="navbar-search-input"
 					className="outline-none"
 					placeholder="search for a beer..."
 					value={searchQuery}
@@ -61,5 +63,3 @@ const Navbar: React.FC = ({}) => {
 		</nav>
 	)
 }
-
-export default Navbar

@@ -25,10 +25,9 @@ export function useQuery<T>(url: string, params?: Record<string, any>): Data<T> 
 				skipEmptyString: true,
 				skipNull: true
 			})
+
 			const res = await fetch(`${BASE_URL}${url}${queryParams ? '?' + queryParams : ''}`)
 			const json = await res.json()
-
-			// await new Promise((resolve) => setTimeout(resolve, 1500))
 
 			// handles edge case of 404
 			if (!res.ok) {

@@ -4,13 +4,16 @@ import { Link } from 'react-router-dom'
 import SkeletonImage from '@/components/skeletons/SkeletonImage'
 import SkeletonText from '@/components/skeletons/SkeletonText'
 
+// will make testing easier
+export type MinifiedBeer = Pick<Beer, 'id' | 'image_url' | 'name' | 'tagline' | 'abv'>
+
 interface BeerCardProps {
-	beer: Beer
+	beer: MinifiedBeer
 }
 
 export const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
 	return (
-		<Link to={`/beers/${beer.id}`} className={'group relative'}>
+		<Link to={`/beers/${beer.id}`} className={'group relative'} data-testid="beer-card">
 			<div className="aspect-square w-full overflow-hidden rounded-md bg-gray-200 transition-opacity group-hover:opacity-75 lg:h-80">
 				<img
 					// some beers did not have an image, this will default it
@@ -35,7 +38,7 @@ export const BeerCard: React.FC<BeerCardProps> = ({ beer }) => {
 
 export const BeerCardSkeleton: React.FC = () => {
 	return (
-		<div>
+		<div data-testid="beer-card-skeleton">
 			<div className="aspect-square w-full overflow-hidden rounded-md bg-gray-200 transition-opacity group-hover:opacity-75 lg:h-80">
 				<SkeletonImage />
 			</div>

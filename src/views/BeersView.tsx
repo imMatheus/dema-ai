@@ -5,7 +5,7 @@ import type { Beer } from '@/types'
 import { useSearchParams } from 'react-router-dom'
 import { BeersPageLayout } from '@/components/layouts/BeersPageLayout'
 
-const Beers: React.FC = ({}) => {
+export const BeersView: React.FC = ({}) => {
 	const [searchParams] = useSearchParams({ page: '1' })
 	const currentPage = Number(searchParams.get('page')) || 1
 
@@ -39,5 +39,3 @@ const Beers: React.FC = ({}) => {
 		</BeersPageLayout>
 	)
 }
-
-export default Beers
