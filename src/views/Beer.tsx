@@ -5,60 +5,97 @@ import { Link, useParams } from 'react-router-dom'
 import classNames from 'classnames'
 import SkeletonImage from '@/components/skeletons/SkeletonImage'
 import SkeletonText from '@/components/skeletons/SkeletonText'
+import { BeerPageLayout } from '@/components/layouts/BeerPageLayout'
 
 const Beer: React.FC = ({}) => {
 	const { id } = useParams()
 	const { data: beers, error, loading } = useQuery<Beer[]>('/beers/' + id)
-	console.log(beers)
 
-	// if (loading) return <p>loading..</p>
+	if (loading)
+		return (
+			<BeerPageLayout>
+				<div className="aspect-square flex-shrink-0 overflow-hidden rounded-md group-hover:opacity-75 max-sm:w-full lg:h-96">
+					<SkeletonImage />
+				</div>
+				<div className="flex-1">
+					<SkeletonText className="h-6 w-80" />
+					<SkeletonText className="mt-2 h-6 w-60" />
+					<SkeletonText className="mt-4 h-6 w-96" />
+					<SkeletonText className="mt-1 h-6 w-44" />
+					<div className="mt-5 flex flex-wrap gap-10 md:mt-10 md:gap-20">
+						<div>
+							<SkeletonText className="h-10 w-24" />
+							<SkeletonText className="mt-2 h-6 w-10" />
+						</div>
+						<div>
+							<SkeletonText className="h-10 w-24" />
+							<SkeletonText className="mt-2 h-6 w-10" />
+						</div>
+						<div>
+							<SkeletonText className="h-10 w-24" />
+							<SkeletonText className="mt-2 h-6 w-10" />
+						</div>
+					</div>
+				</div>
+			</BeerPageLayout>
+		)
 
-	if (error || (!loading && !beers))
+	const beer = beers && beers[0]
+
+	if (error || !beer)
 		return (
 			<div className="py-20 text-center">
 				<h3 className="text-5xl font-bold">404</h3>
 				<p>Seems like the beer you are looking for does not exist</p>
-				<Link to="/" className="text-violet-600 underline">
+				<Link to="/" className="text-primary underline">
 					See all our beers here!
 				</Link>
 			</div>
 		)
 
 	// the api returns an array, so we take the first item
-	const beer = beers && beers[0]
 
 	return (
-		<div className={classNames('mt-10', loading && 'animate-pulse')}>
-			<div className="flex gap-5 md:gap-8">
-				<div className="aspect-square flex-shrink-0 overflow-hidden rounded-md group-hover:opacity-75 lg:h-96">
-					{loading ? (
-						<SkeletonImage />
-					) : (
-						<img
-							src={beer?.image_url}
-							alt="Front of men&#039;s Basic Tee in black."
-							className="h-full w-full object-contain object-center lg:h-full lg:w-full"
-						/>
+		<BeerPageLayout>
+			<div className="aspect-square flex-shrink-0 overflow-hidden rounded-md group-hover:opacity-75 max-sm:w-full lg:h-96">
+				<img
+					// some beers did not have an image, this will default it
+					src={beer.image_url || 'https://images.punkapi.com/v2/keg.png'}
+					alt={`Image of ${beer.name}`}
+					className="h-full w-full object-contain object-center lg:h-full lg:w-full"
+				/>
+			</div>
+			<div className="flex-1">
+				<h2 className="text-2xl font-bold">{beer.name}</h2>
+				<p>{beer.tagline}</p>
+				<p className="mt-2 text-gray-500">{beer.description}</p>
+
+				<div className="mt-5 flex flex-wrap gap-10 md:mt-10 md:gap-20">
+					<div className="border-l-4 border-l-primary pl-4">
+						<h3 className="text-3xl font-bold italic">{beer.abv}%</h3>
+						<p className="text-gray-700">ABV</p>
+					</div>
+					<div className="border-l-4 border-l-primary pl-4">
+						<h3 className="text-3xl font-bold italic">{beer.volume.value}</h3>
+						<p className="text-gray-700">{beer.volume.unit}</p>
+					</div>
+					{/* Some beers don't have the srm field */}
+					{beer?.srm && (
+						<div className="border-l-4 border-l-primary pl-4">
+							<h3 className="text-3xl font-bold italic">{beer.srm}</h3>
+							<p className="text-gray-700">SRM</p>
+						</div>
 					)}
-				</div>
-				<div className="flex-1">
-					{loading ? (
-						<>
-							<SkeletonText className="h-6 w-80" />
-							<SkeletonText className="mt-2 h-6 w-60" />
-							<SkeletonText className="mt-4 h-6 w-96" />
-							<SkeletonText className="mt-1 h-6 w-44" />
-						</>
-					) : (
-						<>
-							<h2 className="text-2xl font-bold">{beer?.name}</h2>
-							<p className="">{beer?.tagline}</p>
-							<p className="mt-2 text-gray-500">{beer?.description}</p>
-						</>
+					{/* Some beers don't have the ph field */}
+					{beer?.ph && (
+						<div className="border-l-4 border-l-primary pl-4">
+							<h3 className="text-3xl font-bold italic">{beer.ph}</h3>
+							<p className="text-gray-700">PH</p>
+						</div>
 					)}
 				</div>
 			</div>
-		</div>
+		</BeerPageLayout>
 	)
 }
 

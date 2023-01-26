@@ -6,7 +6,7 @@ interface SkeletonImageProps {
 }
 
 const SkeletonImage: React.FC<SkeletonImageProps> = ({ className }) => {
-	return <div className={classNames('h-full w-full rounded-md bg-gray-200', className)} />
+	return <div className={classNames('h-full w-full animate-pulse rounded-md bg-gray-200', className)} />
 }
 
 export default SkeletonImage

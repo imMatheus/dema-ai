@@ -1,13 +1,30 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { useQuery } from '@/hooks'
-import BeerCard from '@/components/BeerCard'
+import { BeerCard, BeerCardSkeleton } from '@/components/BeerCard'
 import type { Beer } from '@/types'
+import { useSearchParams } from 'react-router-dom'
+import { BeersPageLayout } from '@/components/layouts/BeersPageLayout'
 
 const Beers: React.FC = ({}) => {
-	const { data: beers, error, loading } = useQuery<Beer[]>('/beers')
-	console.log(beers)
+	const [searchParams] = useSearchParams({ page: '1' })
+	const currentPage = Number(searchParams.get('page')) || 1
 
-	if (error || (!loading && !beers))
+	const memoizedQueryParams = useMemo(() => ({ page: currentPage, per_page: 20 }), [currentPage])
+	// const memoizedQueryParams = { page: currentPage, per_page: 20, beer_name: searchParam }
+	const { data: beers, error, loading } = useQuery<Beer[]>(`/beers`, memoizedQueryParams)
+
+	if (loading)
+		return (
+			<BeersPageLayout beersLength={0}>
+				{Array(20) // little trick to easy generate 20 items in array
+					.fill(0)
+					.map((_, i) => (
+						<BeerCardSkeleton key={i} />
+					))}
+			</BeersPageLayout>
+		)
+
+	if (error || !beers)
 		return (
 			<div>
 				<p>err</p>
@@ -15,18 +32,11 @@ const Beers: React.FC = ({}) => {
 		)
 
 	return (
-		<div>
-			<h2 className="mb-4 text-xl font-semibold">All beers</h2>
-
-			<div className="grid grid-cols-2 gap-y-10 gap-x-6 sm:grid-cols-3 lg:grid-cols-4 xl:gap-x-8">
-				{loading
-					? Array(20) // little trick to easy generate 20 items in array
-							.fill(0)
-							.map(() => <BeerCard loading={true} />)
-					: beers?.map((beer) => <BeerCard beer={beer} />)}
-				{/* The "?" above is only */}
-			</div>
-		</div>
+		<BeersPageLayout beersLength={beers.length}>
+			{beers.map((beer) => (
+				<BeerCard key={beer.id} beer={beer} />
+			))}
+		</BeersPageLayout>
 	)
 }
 

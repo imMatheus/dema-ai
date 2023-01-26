@@ -6,7 +6,7 @@ interface SkeletonTextProps {
 }
 
 const SkeletonText: React.FC<SkeletonTextProps> = ({ className }) => {
-	return <div className={classNames('rounded-md bg-gray-200', className)} />
+	return <div className={classNames('animate-pulse rounded-md bg-gray-200', className)} />
 }
 
 export default SkeletonText

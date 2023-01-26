@@ -5,7 +5,7 @@ import Beer from '@/views/Beer'
 
 function App() {
 	return (
-		<div className="px-4">
+		<div className="px-4 pb-20">
 			<div className="mx-auto max-w-7xl">
 				<Navbar />
 				<Routes>

@@ -11,8 +11,10 @@
 	},
 	"dependencies": {
 		"classnames": "^2.3.2",
+		"query-string": "^8.1.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
+		"react-feather": "^2.0.10",
 		"react-router-dom": "^6.7.0"
 	},
 	"devDependencies": {
