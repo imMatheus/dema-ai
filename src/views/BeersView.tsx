@@ -2,8 +2,9 @@ import React, { useMemo } from 'react'
 import { useQuery } from '@/hooks'
 import { BeerCard, BeerCardSkeleton } from '@/components/BeerCard'
 import type { Beer } from '@/types'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { BeersPageLayout } from '@/components/layouts/BeersPageLayout'
+import { ErrorDisplay } from '@/components/ErrorDisplay'
 
 export const BeersView: React.FC = ({}) => {
 	const [searchParams] = useSearchParams({ page: '1' })
@@ -24,11 +25,14 @@ export const BeersView: React.FC = ({}) => {
 			</BeersPageLayout>
 		)
 
-	if (error || !beers)
+	if (error || !beers || beers.length === 0)
 		return (
-			<div>
-				<p>err</p>
-			</div>
+			<ErrorDisplay
+				title="Beer overload"
+				description="Seems like the page you are looking for does ot exist"
+				href="/"
+				linkText="See all our beers here!"
+			/>
 		)
 
 	return (

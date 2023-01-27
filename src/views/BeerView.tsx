@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import SkeletonImage from '@/components/skeletons/SkeletonImage'
 import SkeletonText from '@/components/skeletons/SkeletonText'
 import { BeerPageLayout } from '@/components/layouts/BeerPageLayout'
+import { ErrorDisplay } from '@/components/ErrorDisplay'
 
 export const BeerView: React.FC = ({}) => {
 	const { id } = useParams()
@@ -44,13 +45,12 @@ export const BeerView: React.FC = ({}) => {
 
 	if (error || !beer)
 		return (
-			<div className="py-20 text-center">
-				<h3 className="text-5xl font-bold">404</h3>
-				<p>Seems like the beer you are looking for does not exist</p>
-				<Link to="/" className="text-primary underline">
-					See all our beers here!
-				</Link>
-			</div>
+			<ErrorDisplay
+				title="404"
+				description="Seems like the beer you are looking for does not exist"
+				href="/"
+				linkText="See all our beers here!"
+			/>
 		)
 
 	// the api returns an array, so we take the first item

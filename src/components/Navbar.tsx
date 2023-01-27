@@ -15,7 +15,7 @@ export const Navbar: React.FC = ({}) => {
 	const { data: beers, loading, error } = useQuery<Beer[]>('/beers', memoizedQueryParams)
 
 	return (
-		<nav className="flex flex-wrap justify-between gap-3 py-3">
+		<nav className="sticky top-0 z-10 flex flex-wrap justify-between gap-3 bg-white py-3">
 			<Link to="/" className="text-2xl font-black tracking-wider">
 				The Beer Bible
 			</Link>
@@ -34,12 +34,14 @@ export const Navbar: React.FC = ({}) => {
 					}}
 				/>
 
-				<div className="absolute top-full z-10 hidden max-w-sm translate-y-2 rounded-md border bg-gray-50 group-focus-within:block sm:right-0 sm:w-max">
-					{/* spinning icon*/}
+				<div className="absolute top-full z-10 hidden w-full max-w-sm translate-y-2 rounded-md border bg-gray-50 group-focus-within:block sm:right-0 sm:w-max">
+					{/* spinning icon */}
 					{loading || debouncedSearchQuery !== searchQuery ? (
-						<div className="mx-auto h-5 w-5 animate-spin rounded-full border-4 border-gray-800 border-t-primary"></div>
+						<div className="absolute right-0 sm:w-56">
+							<div className="mx-auto h-5 w-5 animate-spin rounded-full border-4 border-gray-800 border-t-primary"></div>
+						</div>
 					) : error || !beers || beers.length === 0 ? (
-						<p className="px-5 text-center">Seems like we could not find what you are looking for</p>
+						<p className="px-5 py-5 text-center">Seems like we could not find what you are looking for</p>
 					) : (
 						<div className="space-y-3">
 							{beers.map((beer) => (
